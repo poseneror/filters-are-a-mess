@@ -1,0 +1,37 @@
+.app-container {
+  width: 200px;
+  margin: auto;
+  text-align: center;
+  padding: 8px 20px;
+  border-radius: 8px;
+  border: 3px solid #213547;
+  background-color: #242424;
+}
+
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 8px;
+  max-height: 208px;
+  overflow-y: scroll;
+}
+
+.filter {
+  padding: 4px 8px;
+  border: 1px solid #213547;
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: #213547;
+  display: flex;
+  gap: 8px;
+}
+
+.filter:hover {
+  border-color: #535bf2;
+}
+
+.apply-button {
+  margin: 12px;
+  width: 180px;
+}
