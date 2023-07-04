@@ -9,9 +9,6 @@
 }
 
 .filters-container {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
   padding: 0 8px;
   max-height: 208px;
   overflow-y: scroll;
@@ -25,6 +22,13 @@
   background-color: #213547;
   display: flex;
   gap: 8px;
+  margin: 0 8px 8px 8px;
+}
+
+.filter > span {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .filter:hover {

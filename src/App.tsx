@@ -1,18 +1,9 @@
 import "./App.css";
-import { useState, useEffect } from "react";
-import { FilterType, getFilters } from "./api/filters";
+import { useState } from "react";
+import { FilterType } from "./api/filters";
 
-export default function App() {
-  const [serverResponseFilters, setServerResponseFilters] = useState<
-    FilterType[]
-  >([]);
-  const [pendingFilters, setPendingFilters] = useState<FilterType[]>([]);
-
-  useEffect(() => {
-    const filtersToSet = getFilters(20000);
-    setServerResponseFilters(filtersToSet);
-    setPendingFilters(filtersToSet);
-  }, []);
+export default function App({ filters }: { filters: FilterType[] }) {
+  const [pendingFilters, setPendingFilters] = useState<FilterType[]>(filters);
 
   const onApply = () => {
     console.log("changes applied");
@@ -20,8 +11,8 @@ export default function App() {
 
   const hasChanges = !pendingFilters.every(
     (item) =>
-      serverResponseFilters.find((serverItem) => serverItem.id === item.id)
-        .checked === item.checked
+      filters.find((serverItem) => serverItem.id === item.id).checked ===
+      item.checked
   );
 
   const allSelected = pendingFilters.every((filter) => filter.checked);
@@ -49,11 +40,12 @@ export default function App() {
           <Filter
             key={filter.id}
             checked={filter.checked}
-            label={filter.id}
-            onChange={(checked) => {
+            id={filter.id}
+            label={filter.displayName}
+            onChange={(id, checked) => {
               setPendingFilters(
                 pendingFilters.map((f) =>
-                  f.id === filter.id ? { id: filter.id, checked } : f
+                  f.id === filter.id ? { ...f, checked } : f
                 )
               );
             }}
@@ -72,22 +64,28 @@ export default function App() {
 }
 
 const Filter = ({
+  id,
   checked = false,
   label = "",
-  onChange = () => {},
+  onChange,
 }: {
+  id: string;
   checked?: boolean;
   label?: string;
-  onChange?: (checked: boolean) => void;
+  onChange?: (id: string, checked: boolean) => void;
 } = {}) => {
   return (
-    <div className="filter" onClick={() => onChange(!checked)}>
+    <div
+      className="filter"
+      onClick={() => onChange?.(id, !checked)}
+      data-testid={`filter-${id}`}
+    >
       <input
         type="checkbox"
         checked={checked}
-        onChange={() => onChange(!checked)}
-      />{" "}
-      {label}
+        onChange={() => onChange?.(id, !checked)}
+      />
+      <span>{label}</span>
     </div>
   );
 };
