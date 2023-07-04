@@ -17,6 +17,20 @@ export default function App({ filters }: { filters: FilterType[] }) {
 
   const allSelected = pendingFilters.every((filter) => filter.checked);
 
+  const setAllFilters = (checked: boolean) => {
+    setPendingFilters(pendingFilters.map((f) => ({ ...f, checked })));
+  };
+
+  const onFilterSelected = (id, checked) => {
+    setPendingFilters(
+      pendingFilters.map((f) => (f.id === id ? { ...f, checked } : f))
+    );
+  };
+
+  const onSelectAll = () => {
+    setAllFilters(!allSelected);
+  };
+
   return (
     <div className="app-container">
       <h2>Apply Filters</h2>
@@ -24,17 +38,7 @@ export default function App({ filters }: { filters: FilterType[] }) {
         <Filter
           checked={allSelected}
           label="Select All"
-          onChange={() => {
-            if (allSelected) {
-              setPendingFilters(
-                pendingFilters.map((f) => ({ ...f, checked: false }))
-              );
-            } else {
-              setPendingFilters(
-                pendingFilters.map((f) => ({ ...f, checked: true }))
-              );
-            }
-          }}
+          onChange={onSelectAll}
         />
         {pendingFilters.map((filter) => (
           <Filter
@@ -42,13 +46,7 @@ export default function App({ filters }: { filters: FilterType[] }) {
             checked={filter.checked}
             id={filter.id}
             label={filter.displayName}
-            onChange={(id, checked) => {
-              setPendingFilters(
-                pendingFilters.map((f) =>
-                  f.id === filter.id ? { ...f, checked } : f
-                )
-              );
-            }}
+            onChange={onFilterSelected}
           />
         ))}
       </div>
