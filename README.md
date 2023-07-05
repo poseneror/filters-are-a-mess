@@ -49,15 +49,6 @@ You can play with the amount of filters drawn by modifying `main.tsx`
         <li> A react component re-renders every time its state updates.</li>
         <li> A react component will ALWAYS re-render when its parent re-renders.</li>
     </ol>
-    <a href="https://react.dev/reference/react/memo#memo">Memoize</a> your components to prevent re-rendering if props don’t change. <br />
-    <b>Important:</b> Anonymous functions defined during render cycle have unique references.
-</details>
-<details>
-    <summary>Parents Suck.</summary>
-    <ol>
-        <li> A react component re-renders every time its state updates.</li>
-        <li> A react component will ALWAYS re-render when its parent re-renders.</li>
-    </ol>
     <img src="docs/Render.png" />
     <a href="https://react.dev/reference/react/memo#memo">Memoize</a> your components to prevent re-rendering if props don’t change. <br />
     <b>Important:</b> Anonymous functions defined during render cycle have unique references.
