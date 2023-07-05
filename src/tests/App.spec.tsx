@@ -1,8 +1,8 @@
 import { describe, test } from "vitest";
 import { render, screen, within, waitFor } from "@testing-library/react";
-import App from "./App";
+import App from "../App";
 import userEvent from "@testing-library/user-event";
-import { getFilters } from "./api/filters";
+import { getFilters } from "../api/filters";
 
 export const setupComponent = ({
   filterCount = 1000,

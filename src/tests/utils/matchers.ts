@@ -1,17 +1,12 @@
-import { expect, afterEach } from "vitest";
-import { cleanup } from "@testing-library/react";
-import matchers from "@testing-library/jest-dom/matchers";
-import type { MatcherFunction } from "expect";
+import { MatcherFunction } from "expect";
 
-expect.extend(matchers);
-
-const messure = async (callback: () => Promise<void>) => {
+const measureExecution = async (callback: () => Promise<void>) => {
   const start = performance.now();
   await callback();
   return performance.now() - start;
 };
 
-const toExecuteInLessThan: MatcherFunction<[timeToMatch: number]> =
+export const toExecuteInLessThan: MatcherFunction<[timeToMatch: number]> =
   async function (actual: unknown, timeToMatch) {
     if (typeof actual !== "function") {
       throw new Error(
@@ -19,7 +14,7 @@ const toExecuteInLessThan: MatcherFunction<[timeToMatch: number]> =
       );
     }
 
-    const executionTime = await messure(actual as any);
+    const executionTime = await measureExecution(actual as any);
 
     const pass = executionTime < timeToMatch;
 
@@ -46,19 +41,15 @@ const toExecuteInLessThan: MatcherFunction<[timeToMatch: number]> =
     }
   };
 
-expect.extend({
-  toExecuteInLessThan,
-});
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace jest {
+    interface AsymmetricMatchers {
+      toExecuteInLessThan(timeToMatch: number): void;
+    }
 
-declare module "expect" {
-  interface AsymmetricMatchers {
-    toExecuteInLessThan(timeToMatch: number): void;
-  }
-  interface Matchers<R> {
-    toExecuteInLessThan(timeToMatch: number): R;
+    interface Matchers<R> {
+      toExecuteInLessThan(timeToMatch: number): R;
+    }
   }
 }
-
-afterEach(() => {
-  cleanup();
-});
