@@ -1,8 +1,12 @@
-import "./App.css";
+import "./FiltersComponent.css";
 import { useState } from "react";
 import { FilterType } from "./api/filters";
 
-export default function App({ filters }: { filters: FilterType[] }) {
+export default function FiltersComponent({
+  filters,
+}: {
+  filters: FilterType[];
+}) {
   const [pendingFilters, setPendingFilters] = useState<FilterType[]>(filters);
 
   const onApply = () => {

@@ -1,6 +1,6 @@
-import { describe, test } from "vitest";
+import { describe } from "vitest";
 import { render, screen, within, waitFor } from "@testing-library/react";
-import App from "../App";
+import FiltersComponent from "../FiltersComponent";
 import userEvent from "@testing-library/user-event";
 import { getFilters } from "../api/filters";
 
@@ -9,7 +9,7 @@ export const setupComponent = ({
   allChecked = false,
 }: { filterCount?: number; allChecked?: boolean } = {}) => {
   const filters = getFilters(filterCount, allChecked);
-  const renderResult = render(<App filters={filters} />);
+  const renderResult = render(<FiltersComponent filters={filters} />);
   const user = userEvent.setup();
 
   const getFilterElement = async (index = 0) => {
